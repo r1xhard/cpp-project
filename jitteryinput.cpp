@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
+#include <string.h>
+
 
 #define inttype uint16_t
 
@@ -16,7 +18,7 @@ jitteryInput::jitteryInput(QObject *parent) : QObject(parent){
         int random_variable = 1 + std::rand()/((RAND_MAX + 1u)/sizeof(Nutzlast));
         int new_pos = ( l_pos + random_variable ) % ( sizeof(Nutzlast) -1 );
 
-        std::memset(Outpout, 0, sizeof Outpout);
+        memset(Outpout, 0, sizeof Outpout);
         for( int i = 0; l_pos != new_pos; i++ ){
             Outpout[i] = Nutzlast[l_pos];
             l_pos = ( l_pos + 1 ) % ( sizeof(Nutzlast) -1 );
