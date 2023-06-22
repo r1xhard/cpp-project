@@ -1,43 +1,56 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <sstream>
+#include <iostream>
+#include "ringbuffer.h"
 
-char ringbuffer[512];
-int head = 0;
-int tail = 0;
-void rinbuffer_add(char zeichen){
-    ringbuffer[head] = zeichen;
-}
+using namespace std;
+ringbuffer *rb = new ringbuffer();
 
-/** Versucht ein Zeichen in den Puffer aufzunehmen  
- *  @param[in] zeichen Ein einzelnes Zeichen
- *  @return 0, wenn das Zeichen gespiechert wurde, -1 wenn das nicht funktioniert hat
- */
-int rinbuffer_get(char *zeichen){
-//    if(head == tail)
-//        return -1;
-//    else {
-//        *zeichen = ringbuffer[tail];
-//    }
-    return 0;
-}
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    memset(ringbuffer, 0, sizeof(ringbuffer));
+
     ui->setupUi(this);
 }
 
 MainWindow::~MainWindow(){
     delete ui;
+    delete rb;
 }
 
 void MainWindow::setInputText(QString text){
     ui->textEdit->setText(text);
 }
 
-void MainWindow::setOutputText(QString text){
+void MainWindow::setOutputText(QString text) {
+
+    bool nl = false;
+    stringstream output;
+
+    for(int i=0; i<text.count(); i++){
+        rb->ringbuffer_add(text[i].toLatin1());
+    if(text[i] == '\n'){
+        nl = true;
+    }
+}
+
+    if(nl){
+        while(1){
+            char nc = rb-> ringbuffer_get();
+            output << nc;
+            if(nc == '\n'){
+
+
+        ui->textEdit_2->setText(QString::fromStdString(output.str()));
+        break;
+            }
+        }
+    }
+}
     /*
      * Aufgabe: Nehmen Sie bitte den Input (text) engegen und
      * speichern Sie alle einzelnen Zeichen in einem Ringpuffer ab.
@@ -46,6 +59,6 @@ void MainWindow::setOutputText(QString text){
      * gefunden haben, entnehmen sie alle zeichen inklusive dem umbruch
      * und geben ssie diese im unteren textfeld aus.
      */
-    //ui->textEdit_2->setText(text);
-}
+
+
 

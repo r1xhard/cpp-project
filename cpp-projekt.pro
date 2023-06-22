@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     jitteryinput.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    ringbuffer.cpp
 
 HEADERS += \
     jitteryinput.h \
-    mainwindow.h
+    mainwindow.h \
+    ringbuffer.h
 
 FORMS += \
     mainwindow.ui
